@@ -4,7 +4,9 @@ This is a repository where the Vipers team collaborates for our pyweek project
 
 ## Setup
 To setup venv in the project root folder run:
-``````
+```
+python3 -m venv .venv
+```
 
 To run venv:
 ```
