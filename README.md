@@ -2,6 +2,8 @@
 <hr>
 This is a repository where the Vipers team collaborates for our pyweek project
 The creators of this are VagishVela(Vagish#7028 | https://github.com/VagishVela), Samisai(Samisai#7280 | https://github.com/VagishVela), roboto(roboto#3637 | https://github.com/ryaustin), pd(pd#7746), and Fruitella(Fruitella#4318)
+
+
 ## Setup
 To setup venv in the project root folder run:
 ```
