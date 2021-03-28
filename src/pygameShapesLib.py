@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 pygame.init()
 # if i make this into a library remember to change the window in draw functions
@@ -41,12 +42,9 @@ while gameLoop:
     for event in pygame.event.get():
         # if the user wants to quit(presses the X in top right)
         if event.type == pygame.QUIT:
-            gameLoop = False
-    rect(200, 200, 20, 20, red=255, green=0, blue=0)
-    line(1, 1, 400, 400)
-    ellipse(100, 100, 20, 20)
-    triangle(200, 10, 200, 50, 350, 10)
-    polygon([1, 1, 100, 40, 93, 86])
+            pygame.quit()
+            sys.exit()
+    ellipse(0, 275, 400, 450)
     pygame.display.update()  # updates the display
 
-pygame.quit()
+
