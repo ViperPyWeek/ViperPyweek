@@ -7,6 +7,7 @@ window = pygame.display.set_mode((400, 400))  # creating pygame window
 pygame.display.set_caption("Space Force")
 mars = pygame.image.load(r"Repo\ViperPyweek\src\assets\mars.png")
 
+
 def rect(x, y, width, height, red=155, green=155, blue=155):  # rectangle drawing function
     pygame.draw.rect(window, (red, green, blue), (x, y, width, height))
 
@@ -35,9 +36,11 @@ def polygon(coorList, red=155, green=155, blue=255):
     coorSets = list(coorGen)
     pygame.draw.polygon(window, (red, green, blue), (coorSets))
 
+
 def drawPlanet(planetSprite):
     global window
     window.blit(planetSprite, (0, 275))
+
 
 while True:
     for event in pygame.event.get():
@@ -45,9 +48,9 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    drawPlanet(mars)
-    angle = 90 # play around with this a bit 
-    mars = pygame.transform.rotate(window, angle) # cant get it rotating right, try commenting out this line to see original
+    drawPlanet(mars) # weird blotch on it, when i take out of loop it disappears?
+    angle = 90  # play around with this a bit
+    # mars = pygame.transform.rotate(window, angle) # cant get it rotating right, try uncommenting this line to see current rotation
     pygame.display.update()  # updates the display
 
 
