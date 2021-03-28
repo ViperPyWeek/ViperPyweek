@@ -1,9 +1,9 @@
 import pygame
 
 
-def init(sizeX, sizeY):
+def init(win):
     global window
-    window = pygame.display.set_mode((sizeX, sizeY))
+    window = win
 
 def rect(x, y, width, height, red=155, green=155, blue=155):  # rectangle drawing function
     pygame.draw.rect(window, (red, green, blue), (x, y, width, height))

@@ -3,11 +3,10 @@ import sys
 import shapesHelpers
 
 pygame.init()
-# if make this into a library remember to change the window in draw functions
 window = pygame.display.set_mode((400, 400))  # creating pygame window
 pygame.display.set_caption("Space Force")
 mars = pygame.image.load(r"Repo\ViperPyweek\src\assets\mars.png")
-#shapesHelpers.init(400, 400)
+#shapesHelpers.init(window)
 #shapesHelpers.line(1, 1, 400, 400) # shapehelpers is working
 
 def drawPlanet(planetSprite):
@@ -23,6 +22,7 @@ def rotatePlanet(planet, angle): # https://www.pygame.org/wiki/RotateCenter?pare
     return finalRotate
 
 while True:
+    pygame.time.wait(100)
     for event in pygame.event.get():
         # if the user wants to quit(presses the X in top right)
         if event.type == pygame.QUIT:
@@ -32,6 +32,3 @@ while True:
     angle = -1  # play around with this a bit
     mars = rotatePlanet(mars, angle)
     pygame.display.update()  # updates the display
-
-
-# load sprite of planet and rotate it
