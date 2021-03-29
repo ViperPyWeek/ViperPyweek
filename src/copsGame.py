@@ -1,12 +1,12 @@
 import pygame
 import sys
 import shapesHelpers
+import os
 
 pygame.init()
 window = pygame.display.set_mode((400, 400))  # creating pygame window
 pygame.display.set_caption("Space Force")
-mars = pygame.image.load(r"Repo\ViperPyweek\src\assets\mars.png")
-#shapesHelpers.init(window)
+mars = pygame.image.load(os.path.join('src/assets', 'mars.png'))
 #shapesHelpers.line(1, 1, 400, 400) # shapehelpers is working
 
 def drawPlanet(planetSprite):
@@ -26,9 +26,9 @@ while True:
     for event in pygame.event.get():
         # if the user wants to quit(presses the X in top right)
         if event.type == pygame.QUIT:
-            pygame.quit()
             sys.exit()
     drawPlanet(mars) # weird blotch on it, when i take out of loop it disappears?
-    angle = -1  # play around with this a bit
+    angle = 45  # play around with this a bit
     mars = rotatePlanet(mars, angle)
     pygame.display.update()  # updates the display
+    window.fill([0,0,0]) # black (consider storing in variable)
