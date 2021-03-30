@@ -5,8 +5,11 @@ def init(win):
     global window
     window = win
 
-def rect(x, y, width, height, red=155, green=155, blue=155):  # rectangle drawing function
-    pygame.draw.rect(window, (red, green, blue), (x, y, width, height))
+def rect(x, y, width, height, red=155, green=155, blue=155, strokeWeight=404):  # rectangle drawing function
+    if strokeWeight == 404:
+        pygame.draw.rect(window, (red, green, blue), (x, y, width, height))
+    else:
+        pygame.draw.rect(window, (red, green, blue), (x, y, width, height), width = strokeWeight)
 
 
 def line(x1, y1, x2, y2, red=155, green=155, blue=155, strokeWeight=1):  # line drawing function
