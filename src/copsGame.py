@@ -11,8 +11,8 @@ pygame.display.set_caption("Space Force")
 
 # The below assets will need to be changed to your own paths atm
 mars = pygame.image.load(os.path.join('src/assets', 'mars.png'))
-splashScreen = pygame.image.load(r"Repo\ViperPyweek\src\assets\splashScreen.png").convert()
-font = pygame.font.Font(r"Repo\ViperPyweek\src\assets\gameFont.ttf", 35)
+splashScreen = pygame.image.load(os.path.join('src/assets', 'splashScreen.png')).convert()
+font = pygame.font.Font(os.path.join('src/assets', 'gameFont.ttf'), 35)
 shapesHelpers.init(window)
 
 #font = pygame.font.SysFont('Corbel', 35)
