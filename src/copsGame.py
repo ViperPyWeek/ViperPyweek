@@ -8,11 +8,13 @@ print()
 pygame.init()
 window = pygame.display.set_mode((400, 400))  # creating pygame window
 pygame.display.set_caption("Space Force")
+
 # The below assets will need to be changed to your own paths atm
-mars = pygame.image.load(r"Repo\ViperPyweek\src\assets\mars.png") 
+mars = pygame.image.load(os.path.join('src/assets', 'mars.png'))
 splashScreen = pygame.image.load(r"Repo\ViperPyweek\src\assets\splashScreen.png").convert()
 font = pygame.font.Font(r"Repo\ViperPyweek\src\assets\gameFont.ttf", 35)
 shapesHelpers.init(window)
+
 #font = pygame.font.SysFont('Corbel', 35)
 menuDisp = True
 pauseDisp = False
@@ -44,6 +46,16 @@ def splashScrDisp():
 
 def inputMgmt():
     global pauseDisp, menuDisp, splashed
+def rotatePlanet(planet, angle): # https://www.pygame.org/wiki/RotateCenter?parent=CookBook
+    origPlanet = planet.get_rect()
+    rotatedPlanet = pygame.transform.rotate(planet, angle)
+    planetRect = origPlanet.copy()
+    planetRect.center = rotatedPlanet.get_rect().center
+    finalRotate = rotatedPlanet.subsurface(planetRect).copy()
+    return finalRotate
+
+while True:
+    pygame.time.wait(100)
     for event in pygame.event.get():
         keys = pygame.key.get_pressed()
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -79,6 +91,10 @@ while True: # gameloop
             shapesHelpers.rect(1, 1, 400, 400, red=0, green=0, blue=0)
         if not menuDisp and not pauseDisp:
             drawPlanet(mars)
+            angle = 45  # play around with this a bit
+            mars = rotatePlanet(mars, angle)
         if menuDisp:
             mainMenu()
+
     pygame.display.update()  # updates the display
+    window.fill([0,0,0]) # black (consider storing in variable)
