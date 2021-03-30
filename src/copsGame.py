@@ -1,11 +1,12 @@
 import pygame
 import sys
 import shapesHelpers
+import os
 
 pygame.init()
 window = pygame.display.set_mode((400, 400))  # creating pygame window
 pygame.display.set_caption("Space Force")
-mars = pygame.image.load(r"Repo\ViperPyweek\src\assets\mars.png")
+mars = pygame.image.load(os.path.join('src/assets', 'mars.png'))
 shapesHelpers.init(window)
 font = pygame.font.SysFont('Corbel', 35)
 menuDisp = True
@@ -28,6 +29,14 @@ def pauseScreen():
     window.blit(resumeButton, (150, 150))
     menuButton = font.render('Main Menu', True, white)
     window.blit(menuButton, (130, 250))
+
+def rotatePlanet(planet, angle): # https://www.pygame.org/wiki/RotateCenter?parent=CookBook
+    origPlanet = planet.get_rect()
+    rotatedPlanet = pygame.transform.rotate(planet, angle)
+    planetRect = origPlanet.copy()
+    planetRect.center = rotatedPlanet.get_rect().center
+    finalRotate = rotatedPlanet.subsurface(planetRect).copy()
+    return finalRotate
 
 while True:
     pygame.time.wait(100)
@@ -57,6 +66,9 @@ while True:
         shapesHelpers.rect(1, 1, 400, 400, red=0, green=0, blue=0)
     if not menuDisp and not pauseDisp:
         drawPlanet(mars)
+        angle = 45  # play around with this a bit
+        mars = rotatePlanet(mars, angle)
     if menuDisp:
         mainMenu()
     pygame.display.update()  # updates the display
+    window.fill([0,0,0]) # black (consider storing in variable)
