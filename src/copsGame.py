@@ -24,13 +24,18 @@ resumeButtonYStart, resumeButtonYEnd = 130, 185
 mainMenuButtonXStart, mainMenuButtonXEnd = 150, 260
 mainMenuButtonYStart, mainMenuButtonYEnd = 250, 285
 
+WIDTH = 400
+HEIGHT = 400
+
 # vars end
 
 
 pygame.init()
-window = pygame.display.set_mode((400, 400))  # creating pygame window
-pygame.display.set_caption("Space Force")
+window = pygame.display.set_mode((WIDTH, HEIGHT))  # creating pygame window
+pygame.display.set_caption("Space Force Cops")
 mars = pygame.image.load(os.path.join('src/assets', 'mars.png'))
+# space = pygame.image.load(os.path.join('src/assets', 'space.png'))
+space = pygame.transform.scale(pygame.image.load(os.path.join('src/assets', 'space.png')), (WIDTH, HEIGHT))
 shapesHelpers.init(window)
 font = pygame.font.SysFont('Corbel', 35)
 menuDisp = True
@@ -40,6 +45,7 @@ black = (0, 0, 0)
 
 def drawPlanet(planetSprite):
     global window
+    window.blit(space, (0, 0))
     window.blit(planetSprite, (0, 275))
 
 def mainMenu():
