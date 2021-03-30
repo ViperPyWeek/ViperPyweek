@@ -14,8 +14,16 @@ WE CAN DO IT IN OTHER FILE OR LOCATION
 exitButtonXStart, exitButtonXEnd = 250, 305
 exitButtonYStart, exitButtonYEnd = 100, 135
 
-startButtonXStart, startButtonXEnd = 250, 305
+startButtonXStart, startButtonXEnd = 75, 140
 startButtonYStart, startButtonYEnd = 100, 135
+
+resumeButtonXStart, resumeButtonXEnd = 150, 260
+resumeButtonYStart, resumeButtonYEnd = 130, 185
+
+
+mainMenuButtonXStart, mainMenuButtonXEnd = 150, 260
+mainMenuButtonYStart, mainMenuButtonYEnd = 250, 285
+
 # vars end
 
 
@@ -28,6 +36,7 @@ font = pygame.font.SysFont('Corbel', 35)
 menuDisp = True
 pauseDisp = False
 white = (255, 255, 255)
+black = (0, 0, 0)
 
 def drawPlanet(planetSprite):
     global window
@@ -37,14 +46,14 @@ def mainMenu():
     exitButton = font.render('Exit', True, white)
     window.blit(exitButton , (exitButtonXStart, exitButtonYStart))
     startButton = font.render('Start', True, white)
-    window.blit(startButton , (75, 100))
+    window.blit(startButton , (startButtonXStart, startButtonYStart))
 
 def pauseScreen():
     shapesHelpers.rect(0, 0, 400, 400, red=0, green=0, blue=0)
     resumeButton = font.render('Resume', True, white)
-    window.blit(resumeButton, (150, 150))
+    window.blit(resumeButton, (resumeButtonXStart, resumeButtonYStart))
     menuButton = font.render('Main Menu', True, white)
-    window.blit(menuButton, (130, 250))
+    window.blit(menuButton, (mainMenuButtonXStart, mainMenuButtonYStart))
 
 def rotatePlanet(planet, angle): # https://www.pygame.org/wiki/RotateCenter?parent=CookBook
     origPlanet = planet.get_rect()
@@ -59,23 +68,25 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
             xMousePosition, yMousePosition = pygame.mouse.get_pos()
-            # if on menuDisplay clicks on EXIT exit the game
-            if exitButtonXStart <= xMousePosition <= exitButtonXEnd and exitButtonYStart <= yMousePosition <= exitButtonYEnd and menuDisp:
-                pygame.quit()
-                sys.exit()
-            # if on menuDisplay and clicks on start then start
-            elif 140 >= xMousePosition >= 75 and 100 <= yMousePosition <= 135 and menuDisp:
-                menuDisp = False
-            elif 260 >= xMousePosition >= 150 and 150 <= yMousePosition <= 185 and pauseDisp:
-                pauseDisp = False
-            elif 260 >= xMousePosition >= 150 and 250 <= yMousePosition <= 285 and pauseDisp:
-                pauseDisp = False
-                menuDisp = True
+            # we can just check state wise instead of checking step each time, it will be more splitted
+            if menuDisp:
+                # if clicks on EXIT exit the game
+                if exitButtonXStart <= xMousePosition <= exitButtonXEnd and exitButtonYStart <= yMousePosition <= exitButtonYEnd:
+                    pygame.quit()
+                    sys.exit()
+                # if on menuDisplay and clicks on start then start
+                elif startButtonXStart <= xMousePosition <= startButtonXEnd and startButtonYStart <= yMousePosition <= startButtonYEnd:
+                    menuDisp = False
+            elif pauseDisp:
+                if resumeButtonXStart <= xMousePosition <= resumeButtonXEnd and resumeButtonYStart <= yMousePosition <= resumeButtonYEnd:
+                    pauseDisp = False
+                elif mainMenuButtonXStart <= xMousePosition <= mainMenuButtonXEnd and mainMenuButtonYStart <= yMousePosition <= mainMenuButtonYEnd:
+                    pauseDisp = False
+                    menuDisp = True
         elif event.type == pygame.KEYDOWN:
             if not menuDisp and pygame.K_ESCAPE and pauseDisp:
                 pauseDisp = False
             elif not menuDisp and pygame.K_ESCAPE:
-                pauseScreen()
                 pauseDisp = True
         elif event.type == pygame.QUIT:
             pygame.quit()
@@ -88,5 +99,7 @@ while True:
         mars = rotatePlanet(mars, angle)
     if menuDisp:
         mainMenu()
+    elif pauseDisp:
+        pauseScreen()
     pygame.display.update()  # updates the display
-    window.fill([0,0,0]) # black (consider storing in variable)
+    window.fill(black)
