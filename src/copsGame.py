@@ -3,6 +3,22 @@ import sys
 import shapesHelpers
 import os
 
+
+"""
+MAKING CONSTANT VARIABLES FOR BUTTON BOUNDS
+WE CAN DO IT IN OTHER FILE OR LOCATION
+"""
+
+# vars start
+
+exitButtonXStart, exitButtonXEnd = 250, 305
+exitButtonYStart, exitButtonYEnd = 100, 135
+
+startButtonXStart, startButtonXEnd = 250, 305
+startButtonYStart, startButtonYEnd = 100, 135
+# vars end
+
+
 pygame.init()
 window = pygame.display.set_mode((400, 400))  # creating pygame window
 pygame.display.set_caption("Space Force")
@@ -19,7 +35,7 @@ def drawPlanet(planetSprite):
 
 def mainMenu():
     exitButton = font.render('Exit', True, white)
-    window.blit(exitButton , (250, 100))
+    window.blit(exitButton , (exitButtonXStart, exitButtonYStart))
     startButton = font.render('Start', True, white)
     window.blit(startButton , (75, 100))
 
@@ -42,15 +58,17 @@ while True:
     pygame.time.wait(100)
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse = pygame.mouse.get_pos()
-            if 305 >= mouse[0] >= 250 and 100 <= mouse[1] <= 135 and menuDisp:
+            xMousePosition, yMousePosition = pygame.mouse.get_pos()
+            # if on menuDisplay clicks on EXIT exit the game
+            if exitButtonXStart <= xMousePosition <= exitButtonXEnd and exitButtonYStart <= yMousePosition <= exitButtonYEnd and menuDisp:
                 pygame.quit()
                 sys.exit()
-            elif 140 >= mouse[0] >= 75 and 100 <= mouse[1] <= 135 and menuDisp:
+            # if on menuDisplay and clicks on start then start
+            elif 140 >= xMousePosition >= 75 and 100 <= yMousePosition <= 135 and menuDisp:
                 menuDisp = False
-            elif 260 >= mouse[0] >= 150 and 150 <= mouse[1] <= 185 and pauseDisp:
+            elif 260 >= xMousePosition >= 150 and 150 <= yMousePosition <= 185 and pauseDisp:
                 pauseDisp = False
-            elif 260 >= mouse[0] >= 150 and 250 <= mouse[1] <= 285 and pauseDisp:
+            elif 260 >= xMousePosition >= 150 and 250 <= yMousePosition <= 285 and pauseDisp:
                 pauseDisp = False
                 menuDisp = True
         elif event.type == pygame.KEYDOWN:
