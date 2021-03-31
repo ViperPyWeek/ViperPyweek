@@ -7,6 +7,7 @@ from time import process_time as pt  # seconds
 # Custom libraries
 
 import shapesHelpers
+import os
 
 
 # TODO make stuff look nicer, add blocks behind selection, make buttons change color when hovered, shooting star background
