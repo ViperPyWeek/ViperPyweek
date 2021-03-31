@@ -1,5 +1,4 @@
 # Default libraries
-
 import pygame
 from sys import exit
 from time import process_time as pt  # seconds
@@ -7,36 +6,26 @@ import os
 
 # Custom libraries
 from customLib import player as hero
-#import shapesHelpers
 
 # library initializations
 pygame.init()
 WIN_WIDTH, WIN_HEIGHT = 400, 400
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))  # creating pygame window
-#shapesHelpers.init(window)
 pygame.display.set_caption("Space Force Cops")
 
-
-# TODO make stuff look nicer, add blocks behind selection, make buttons change color when hovered, shooting star background
-
-# The below assets will need to be changed to your own paths
+def loadImage(fileName):
+    return pygame.image.load('src' + os.sep + 'assets' + os.sep + fileName)
 
 # constants
-MARSIMG = pygame.image.load(
-    'src' + os.sep + 'assets' + os.sep + 'mars.png')
-SPLASHIMG = pygame.image.load(
-    'src' + os.sep + 'assets' + os.sep + 'splashScreen.png').convert()
+MARSIMG = loadImage('mars.png')
+SPLASHIMG = loadImage('splashScreen.png').convert()
 FONT = pygame.font.Font(
     'src' + os.sep + 'assets' + os.sep + 'gameFont.ttf', 35)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-'''COP_IMAGE = [pygame.image.load(os.path.join('assets', 'cop', 'Walk', 'walk1.png')),  
-            pygame.image.load(os.path.join('assets', 'cop', 'Walk', 'walk2.png')), 
-            pygame.image.load(os.path.join('assets', 'cop', 'Walk', 'walk3.png'))]
-            '''
-COP_IMAGE = [pygame.image.load('src' +os.sep+ 'assets' +os.sep+ 'cop' +os.sep+ 'Walk' +os.sep+ 'walk1.png'),  
-            pygame.image.load('src' +os.sep+ 'assets' +os.sep+ 'cop' +os.sep+ 'Walk' +os.sep+ 'walk2.png'), 
-            pygame.image.load('src' +os.sep+ 'assets' +os.sep+ 'cop' +os.sep+ 'Walk' +os.sep+ 'walk3.png')]
+COP_IMAGE = [loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk1.png'),  
+            loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk2.png'), 
+            loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk3.png')]
 
 
 # button location constants
