@@ -6,9 +6,9 @@ import os
 
 # Classes
 from classes.acceleration import Acceleration
+from classes import player as hero
 
 # Custom libraries
-from customLib import player as hero
 from customLib.constants import *
 
 # library initializations
@@ -63,8 +63,6 @@ def mainMenu():
 
 def pauseScreen():
     """Generates the pause screen and buttons"""
-    # shapesHelpers.rect(0, 0, 400, 400, red=0, green=0,
-                    #    blue=0)  # commenting this out can make the pause screen transparent
     resumeButton = FONT.render('Resume', True, WHITE)
     window.blit(resumeButton, (RESUMEBUTTONXSTART, RESUMEBUTTONYSTART))
     menuButton = FONT.render('Main Menu', True, WHITE)

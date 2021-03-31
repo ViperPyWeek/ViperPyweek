@@ -25,7 +25,6 @@ The average acceleration was {self.averageAcceleration} units/s
     def accelerate(self):
         if self.currentSpeed < self.maxSpeed:
             self.currentSpeed += self.rate
-            self.pygame.time.wait(100)
         elif self.currentSpeed == self.maxSpeed and self.loopAcc:
             self.time = pt() - self.startTime
             self.loopAcc = False
