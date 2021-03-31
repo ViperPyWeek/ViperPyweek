@@ -1,56 +1,33 @@
 # Default libraries
 import pygame
 from sys import exit
-from time import process_time as pt  # seconds
+
 import os
+from classes.acceleration import Acceleration
 
 # Custom libraries
 from customLib import player as hero
+from customLib.constants import *
 
 # library initializations
 pygame.init()
-WIN_WIDTH, WIN_HEIGHT = 400, 400
+
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))  # creating pygame window
 pygame.display.set_caption("Space Force Cops")
 
 def loadImage(fileName):
     return pygame.image.load('src' + os.sep + 'assets' + os.sep + fileName)
 
-# constants
+# pygame constants
 MARSIMG = loadImage('mars.png')
 SPLASHIMG = loadImage('splashScreen.png').convert()
 FONT = pygame.font.Font(
     'src' + os.sep + 'assets' + os.sep + 'gameFont.ttf', 35)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
 COP_IMAGE = [loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk1.png'),  
             loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk2.png'), 
             loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk3.png')]
 
-
-# button location constants
-
-ORIGIN = (0, 0)
-
-EXITBUTTONXSTART, EXITBUTTONXEND = 170, 225 # gap of 55
-EXITBUTTONYSTART, EXITBUTTONYEND = 250, 285 # gap of 35 presumably
-
-STARTBUTTONXSTART, STARTBUTTONXEND = 160, 215
-STARTBUTTONYSTART, STARTBUTTONYEND = 150, 185
-
-RESUMEBUTTONXSTART, RESUMEBUTTONXEND = 150, 260
-RESUMEBUTTONYSTART, RESUMEBUTTONYEND = 150, 185
-
-MENUBUTTONXSTART, MENUBUTTONXEND = 130, 260
-MENUBUTTONYSTART, MENUBUTTONYEND = 250, 285
-
-TOP_OF_PLANET = 212
-
-COP_WIDTH, COP_HEIGHT = 50, 65
-COP_X, COP_Y = (WIN_WIDTH//2 - COP_WIDTH//2), TOP_OF_PLANET
-
 # Vars
-
 accelRate = 1
 iterCt = 0
 menuDisp = True
