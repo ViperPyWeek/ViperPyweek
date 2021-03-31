@@ -6,7 +6,7 @@ from time import process_time as pt  # seconds
 import os
 
 # Custom libraries
-import player as hero
+from customLib import player as hero
 #import shapesHelpers
 
 # library initializations
