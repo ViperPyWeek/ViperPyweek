@@ -7,7 +7,6 @@ from time import process_time as pt  # seconds
 # Custom libraries
 
 import shapesHelpers
-import os
 
 
 # TODO make stuff look nicer, add blocks behind selection, make buttons change color when hovered, shooting star background
@@ -21,21 +20,21 @@ pygame.display.set_caption("Space Force")
 # The below assets will need to be changed to your own paths
 
 # constants
-MARSIMG = pygame.image.load(r"src\assets\mars.png")
+MARSIMG = pygame.image.load(r"Repo\ViperPyweek\src\assets\mars.png")
 SPLASHIMG = pygame.image.load(
-    r"src\assets\splashScreen.png").convert()
-FONT = pygame.font.Font(r"src\assets\gameFont.ttf", 35)
+    r"Repo\ViperPyweek\src\assets\splashScreen.png").convert()
+FONT = pygame.font.Font(r"Repo\ViperPyweek\src\assets\gameFont.ttf", 35)
 WHITE = (255, 255, 255)
 
 # button location constants
 
 ORIGIN = (0, 0)
 
-EXITBUTTONXSTART, EXITBUTTONXEND = 170, 225 # gap of 55
-EXITBUTTONYSTART, EXITBUTTONYEND = 250, 285 # gap of 35 presumably
+EXITBUTTONXSTART, EXITBUTTONXEND = 170, 305
+EXITBUTTONYSTART, EXITBUTTONYEND = 250, 135
 
-STARTBUTTONXSTART, STARTBUTTONXEND = 160, 215
-STARTBUTTONYSTART, STARTBUTTONYEND = 150, 185
+STARTBUTTONXSTART, STARTBUTTONXEND = 160, 140
+STARTBUTTONYSTART, STARTBUTTONYEND = 150, 135
 
 RESUMEBUTTONXSTART, RESUMEBUTTONXEND = 150, 260
 RESUMEBUTTONYSTART, RESUMEBUTTONYEND = 150, 185
@@ -67,13 +66,13 @@ class Acceleration():
     def __str__(self):
         try:
             self.averageAcceleration = self.avgAccel()
-            return f"""
+            return  f"""
 Reached terminal velocity:
 {self.time} seconds passed in accelerating to
 {self.maxSpeed} from {self.startSpeed} with a rate of {self.rate} units.
 The average acceleration was {self.averageAcceleration} units/s
                     """
-        except Exception as _e:
+        except Exception as e:
             return
 
     def accelerate(self):
@@ -87,7 +86,6 @@ The average acceleration was {self.averageAcceleration} units/s
 
     def avgAccel(self):
         return (self.currentSpeed - self.startSpeed)/self.time
-
 
 acceleration = Acceleration(0, 10, accelRate)
 
@@ -149,22 +147,17 @@ def inputMgmt():
     for event in pygame.event.get():
         keys = pygame.key.get_pressed()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mouseX, mouseY = pygame.mouse.get_pos()
-            if menuDisp and splashed:
-                # EXIT BUTTON
-                if EXITBUTTONXSTART <= mouseX <= EXITBUTTONXEND and EXITBUTTONYSTART <= mouseY <= EXITBUTTONYEND:
-                    pygame.quit()
-                    exit()
-                # START BUTTON
-                elif STARTBUTTONXSTART <= mouseX <= STARTBUTTONXEND and STARTBUTTONXSTART <= mouseY <= STARTBUTTONXEND:
-                    menuDisp = False
-            elif pauseDisp:
-                # RESUME
-                if RESUMEBUTTONXSTART <= mouseX <= RESUMEBUTTONXEND and RESUMEBUTTONYSTART <= mouseY <= RESUMEBUTTONYEND:
-                    pauseDisp = False
-                if MENUBUTTONXSTART <= mouseX <= MENUBUTTONXEND and MENUBUTTONYSTART <= mouseY <= MENUBUTTONYEND:
-                    pauseDisp = False
-                    menuDisp = True
+            mouse = pygame.mouse.get_pos()
+            if 260 >= mouse[0] >= 150 and 250 <= mouse[1] <= 285 and menuDisp and splashed:
+                pygame.quit()
+                exit()
+            elif 260 >= mouse[0] >= 150 and 150 <= mouse[1] <= 185 and menuDisp and splashed:
+                menuDisp = False
+            elif 260 >= mouse[0] >= 150 and 150 <= mouse[1] <= 185 and pauseDisp:
+                pauseDisp = False
+            elif 260 >= mouse[0] >= 150 and 250 <= mouse[1] <= 285 and pauseDisp:
+                pauseDisp = False
+                menuDisp = True
         if keys[pygame.K_ESCAPE] and not menuDisp and pauseDisp:
             pauseDisp = False
         elif not menuDisp and keys[pygame.K_ESCAPE]:
@@ -185,7 +178,6 @@ def splashScrDisp():
     pressSpace = FONT.render('Press Space', True, WHITE)
     window.blit(SPLASHIMG, ORIGIN)
     window.blit(pressSpace, (105, 300))
-
 
 def printAcceleration():
     global iterCt
@@ -214,3 +206,4 @@ while True:
             mainMenu()
     printAcceleration()
     pygame.display.update()  # updates the display
+
