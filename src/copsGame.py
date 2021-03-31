@@ -17,17 +17,17 @@ pygame.init()
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))  # creating pygame window
 pygame.display.set_caption("Space Force Cops")
 
-def loadImage(fileName):
+def loadAsset(fileName):
     return pygame.image.load('src' + os.sep + 'assets' + os.sep + fileName)
 
 # pygame constants
-MARSIMG = loadImage('mars.png')
-SPLASHIMG = loadImage('splashScreen.png').convert()
+MARSIMG = loadAsset('mars.png')
+SPLASHIMG = loadAsset('splashScreen.png').convert()
 FONT = pygame.font.Font(
     'src' + os.sep + 'assets' + os.sep + 'gameFont.ttf', 35)
-COP_IMAGE = [loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk1.png'),  
-            loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk2.png'), 
-            loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk3.png')]
+COP_IMAGE = [loadAsset('cop' +os.sep+ 'Walk' +os.sep+ 'walk1.png'),  
+            loadAsset('cop' +os.sep+ 'Walk' +os.sep+ 'walk2.png'), 
+            loadAsset('cop' +os.sep+ 'Walk' +os.sep+ 'walk3.png')]
 
 # Vars
 accelRate = 1
