@@ -3,6 +3,8 @@ import pygame
 from sys import exit
 
 import os
+
+# Classes
 from classes.acceleration import Acceleration
 
 # Custom libraries
@@ -34,44 +36,19 @@ menuDisp = True
 pauseDisp = False
 splashed = False
 mars = MARSIMG
+
 #create a cop using the player class
 cop = hero.player(COP_IMAGE[0], COP_X, COP_Y, COP_WIDTH, COP_HEIGHT)
-
 
 # Classes (before vars as some vars may depend on classes)
 
 acceleration = Acceleration(0, 10, accelRate, pygame)
 
-
 # methods for visualizing
 
 # planet functions
 
-
-def drawPlanet(planetSprite):
-    """
-    This function draws the planet sprite that was loaded 
-    in the position that will be used for the game, this
-    is needed as there will be multiple levels with different
-    planet sprites
-    """
-    window.blit(planetSprite, (0, 275))
-
-
-def rotatePlanet(planet):  # https://www.pygame.org/wiki/RotateCenter?parent=CookBook
-    """
-    This function takes in the planet sprite and velocity that
-    is desired for rotation, negative velocity will move the
-    opposite direction, set the initial planet equal to the
-    return of this function
-    """
-    origPlanet = planet.get_rect()
-    accel = acceleration.accelerate()
-    rotatedPlanet = pygame.transform.rotate(planet, accel)
-    planetRect = origPlanet.copy()
-    planetRect.center = rotatedPlanet.get_rect().center
-    finalRotate = rotatedPlanet.subsurface(planetRect).copy()
-    return finalRotate
+from customLib.planet import *
 
 # button and prompting functions
 
@@ -159,8 +136,8 @@ while True:
         if not pauseDisp:
             window.fill(BLACK)
         if not menuDisp and not pauseDisp:
-            drawPlanet(mars)
-            mars = rotatePlanet(mars)
+            drawPlanet(mars, window)
+            mars = rotatePlanet(mars, acceleration, pygame)
             cop.draw(COP_IMAGE, window)
         if menuDisp:
             mainMenu()
