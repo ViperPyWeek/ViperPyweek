@@ -20,10 +20,10 @@ pygame.display.set_caption("Space Force")
 # The below assets will need to be changed to your own paths
 
 # constants
-MARSIMG = pygame.image.load(r"src\assets\mars.png")
+MARSIMG = pygame.image.load(r"Repo\ViperPyweek\src\assets\mars.png")
 SPLASHIMG = pygame.image.load(
-    r"src\assets\splashScreen.png").convert()
-FONT = pygame.font.Font(r"src\assets\gameFont.ttf", 35)
+    r"Repo\ViperPyweek\src\assets\splashScreen.png").convert()
+FONT = pygame.font.Font(r"Repo\ViperPyweek\src\assets\gameFont.ttf", 35)
 WHITE = (255, 255, 255)
 
 # button location constants
@@ -66,7 +66,7 @@ class Acceleration():
     def __str__(self):
         try:
             self.averageAcceleration = self.avgAccel()
-            return f"""
+            return  f"""
 Reached terminal velocity:
 {self.time} seconds passed in accelerating to
 {self.maxSpeed} from {self.startSpeed} with a rate of {self.rate} units.
@@ -86,7 +86,6 @@ The average acceleration was {self.averageAcceleration} units/s
 
     def avgAccel(self):
         return (self.currentSpeed - self.startSpeed)/self.time
-
 
 acceleration = Acceleration(0, 10, accelRate)
 
@@ -180,7 +179,6 @@ def splashScrDisp():
     window.blit(SPLASHIMG, ORIGIN)
     window.blit(pressSpace, (105, 300))
 
-
 def printAcceleration():
     global iterCt
     if iterCt < 1:
@@ -208,3 +206,4 @@ while True:
             mainMenu()
     printAcceleration()
     pygame.display.update()  # updates the display
+
