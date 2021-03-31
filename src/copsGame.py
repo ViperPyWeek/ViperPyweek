@@ -40,42 +40,7 @@ cop = hero.player(COP_IMAGE[0], COP_X, COP_Y, COP_WIDTH, COP_HEIGHT)
 
 # Classes (before vars as some vars may depend on classes)
 
-
-class Acceleration():
-    def __init__(self, currentSpeed, maxSpeed, rate):
-        self.startSpeed = currentSpeed
-        self.currentSpeed = currentSpeed
-        self.maxSpeed = maxSpeed
-        self.rate = rate
-        self.startTime = pt()
-        self.loopAcc = True
-
-    def __str__(self):
-        try:
-            self.averageAcceleration = self.avgAccel()
-            return f"""
-Reached terminal velocity:
-{self.time} seconds passed in accelerating to
-{self.maxSpeed} from {self.startSpeed} with a rate of {self.rate} units.
-The average acceleration was {self.averageAcceleration} units/s
-                    """
-        except Exception as _e:
-            return
-
-    def accelerate(self):
-        if self.currentSpeed < self.maxSpeed:
-            self.currentSpeed += self.rate
-            pygame.time.wait(100)
-        elif self.currentSpeed == self.maxSpeed and self.loopAcc:
-            self.time = pt() - self.startTime
-            self.loopAcc = False
-        return self.currentSpeed
-
-    def avgAccel(self):
-        return (self.currentSpeed - self.startSpeed)/self.time
-
-
-acceleration = Acceleration(0, 10, accelRate)
+acceleration = Acceleration(0, 10, accelRate, pygame)
 
 
 # methods for visualizing
