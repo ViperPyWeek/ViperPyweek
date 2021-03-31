@@ -3,29 +3,41 @@
 import pygame
 from sys import exit
 from time import process_time as pt  # seconds
+import os
 
 # Custom libraries
+import player as hero
+#import shapesHelpers
 
-import shapesHelpers
-import os
+# library initializations
+pygame.init()
+WIN_WIDTH, WIN_HEIGHT = 400, 400
+window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))  # creating pygame window
+#shapesHelpers.init(window)
+pygame.display.set_caption("Space Force Cops")
 
 
 # TODO make stuff look nicer, add blocks behind selection, make buttons change color when hovered, shooting star background
 
-# library initializations
-pygame.init()
-window = pygame.display.set_mode((400, 400))  # creating pygame window
-shapesHelpers.init(window)
-pygame.display.set_caption("Space Force")
-
 # The below assets will need to be changed to your own paths
 
 # constants
-MARSIMG = pygame.image.load(r"src\assets\mars.png")
+MARSIMG = pygame.image.load(
+    'src' + os.sep + 'assets' + os.sep + 'mars.png')
 SPLASHIMG = pygame.image.load(
-    r"src\assets\splashScreen.png").convert()
-FONT = pygame.font.Font(r"src\assets\gameFont.ttf", 35)
+    'src' + os.sep + 'assets' + os.sep + 'splashScreen.png').convert()
+FONT = pygame.font.Font(
+    'src' + os.sep + 'assets' + os.sep + 'gameFont.ttf', 35)
 WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+'''COP_IMAGE = [pygame.image.load(os.path.join('assets', 'cop', 'Walk', 'walk1.png')),  
+            pygame.image.load(os.path.join('assets', 'cop', 'Walk', 'walk2.png')), 
+            pygame.image.load(os.path.join('assets', 'cop', 'Walk', 'walk3.png'))]
+            '''
+COP_IMAGE = [pygame.image.load('src' +os.sep+ 'assets' +os.sep+ 'cop' +os.sep+ 'Walk' +os.sep+ 'walk1.png'),  
+            pygame.image.load('src' +os.sep+ 'assets' +os.sep+ 'cop' +os.sep+ 'Walk' +os.sep+ 'walk2.png'), 
+            pygame.image.load('src' +os.sep+ 'assets' +os.sep+ 'cop' +os.sep+ 'Walk' +os.sep+ 'walk3.png')]
+
 
 # button location constants
 
@@ -43,6 +55,11 @@ RESUMEBUTTONYSTART, RESUMEBUTTONYEND = 150, 185
 MENUBUTTONXSTART, MENUBUTTONXEND = 130, 260
 MENUBUTTONYSTART, MENUBUTTONYEND = 250, 285
 
+TOP_OF_PLANET = 212
+
+COP_WIDTH, COP_HEIGHT = 50, 65
+COP_X, COP_Y = (WIN_WIDTH//2 - COP_WIDTH//2), TOP_OF_PLANET
+
 # Vars
 
 accelRate = 1
@@ -51,6 +68,9 @@ menuDisp = True
 pauseDisp = False
 splashed = False
 mars = MARSIMG
+#create a cop using the player class
+cop = hero.player(COP_IMAGE[0], COP_X, COP_Y, COP_WIDTH, COP_HEIGHT)
+
 
 # Classes (before vars as some vars may depend on classes)
 
@@ -135,8 +155,8 @@ def mainMenu():
 
 def pauseScreen():
     """Generates the pause screen and buttons"""
-    shapesHelpers.rect(0, 0, 400, 400, red=0, green=0,
-                       blue=0)  # commenting this out can make the pause screen transparent
+    # shapesHelpers.rect(0, 0, 400, 400, red=0, green=0,
+                    #    blue=0)  # commenting this out can make the pause screen transparent
     resumeButton = FONT.render('Resume', True, WHITE)
     window.blit(resumeButton, (RESUMEBUTTONXSTART, RESUMEBUTTONYSTART))
     menuButton = FONT.render('Main Menu', True, WHITE)
@@ -206,10 +226,11 @@ while True:
         splashScrDisp()
     if splashed:
         if not pauseDisp:
-            shapesHelpers.rect(1, 1, 400, 400, red=0, green=0, blue=0)
+            window.fill(BLACK)
         if not menuDisp and not pauseDisp:
             drawPlanet(mars)
             mars = rotatePlanet(mars)
+            cop.draw(COP_IMAGE, window)
         if menuDisp:
             mainMenu()
     printAcceleration()
