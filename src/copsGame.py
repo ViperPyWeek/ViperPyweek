@@ -6,9 +6,9 @@ import os
 
 # Classes
 from classes.acceleration import Acceleration
+from classes import player as hero
 
 # Custom libraries
-from customLib import player as hero
 from customLib.constants import *
 
 # library initializations
@@ -17,17 +17,17 @@ pygame.init()
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))  # creating pygame window
 pygame.display.set_caption("Space Force Cops")
 
-def loadImage(fileName):
+def loadAsset(fileName):
     return pygame.image.load('src' + os.sep + 'assets' + os.sep + fileName)
 
 # pygame constants
-MARSIMG = loadImage('mars.png')
-SPLASHIMG = loadImage('splashScreen.png').convert()
+MARSIMG = loadAsset('mars.png')
+SPLASHIMG = loadAsset('splashScreen.png').convert()
 FONT = pygame.font.Font(
     'src' + os.sep + 'assets' + os.sep + 'gameFont.ttf', 35)
-COP_IMAGE = [loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk1.png'),  
-            loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk2.png'), 
-            loadImage('cop' +os.sep+ 'Walk' +os.sep+ 'walk3.png')]
+COP_IMAGE = [loadAsset('cop' +os.sep+ 'Walk' +os.sep+ 'walk1.png'),  
+            loadAsset('cop' +os.sep+ 'Walk' +os.sep+ 'walk2.png'), 
+            loadAsset('cop' +os.sep+ 'Walk' +os.sep+ 'walk3.png')]
 
 # Vars
 accelRate = 1
@@ -63,8 +63,6 @@ def mainMenu():
 
 def pauseScreen():
     """Generates the pause screen and buttons"""
-    # shapesHelpers.rect(0, 0, 400, 400, red=0, green=0,
-                    #    blue=0)  # commenting this out can make the pause screen transparent
     resumeButton = FONT.render('Resume', True, WHITE)
     window.blit(resumeButton, (RESUMEBUTTONXSTART, RESUMEBUTTONYSTART))
     menuButton = FONT.render('Main Menu', True, WHITE)
