@@ -1,14 +1,13 @@
 from time import process_time as pt  # seconds
 
 class Acceleration():
-    def __init__(self, currentSpeed, maxSpeed, rate, pygame):
+    def __init__(self, currentSpeed, maxSpeed, rate):
         self.startSpeed = currentSpeed
         self.currentSpeed = currentSpeed
         self.maxSpeed = maxSpeed
         self.rate = rate
         self.startTime = pt()
         self.loopAcc = True
-        self.pygame = pygame
 
     def __str__(self):
         try:
