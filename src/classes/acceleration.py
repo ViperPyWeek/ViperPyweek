@@ -22,7 +22,7 @@ The average acceleration was {self.averageAcceleration} units/s
         except Exception as _e:
             return
 
-    def accelerate(self):
+    def accelerate(self) -> float:
         if self.currentSpeed < self.maxSpeed:
             self.currentSpeed += self.rate
         elif self.currentSpeed == self.maxSpeed and self.loopAcc:
@@ -30,5 +30,5 @@ The average acceleration was {self.averageAcceleration} units/s
             self.loopAcc = False
         return self.currentSpeed
 
-    def avgAccel(self):
+    def avgAccel(self) -> float:
         return (self.currentSpeed - self.startSpeed)/self.time
