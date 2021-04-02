@@ -1,7 +1,9 @@
 # Default libraries
+from customLib.planet import *
 import pygame
 from sys import exit
-
+from requests import get
+from io import BytesIO
 import os
 
 # Classes
@@ -14,20 +16,62 @@ from customLib.constants import *
 # library initializations
 pygame.init()
 
-window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))  # creating pygame window
-pygame.display.set_caption("Space Force Cops")
+window = pygame.display.set_mode(
+    (WIN_WIDTH, WIN_HEIGHT))  # creating pygame window
+pygame.display.set_caption('Space Force Cops')
 
-def loadAsset(fileName):
+
+def loadImage(fileName):
     return pygame.image.load('src' + os.sep + 'assets' + os.sep + fileName)
 
+
+def linkToFile(hostLink):
+    img = get(hostLink)
+    convertImg = BytesIO(img.content)
+    return pygame.image.load(convertImg)
+
+
+def loadFont(hostLink):
+    file = get(hostLink)
+    convert = BytesIO(file.content)
+    return pygame.font.Font(convert, 35)
+
+
 # pygame constants
-MARSIMG = loadAsset('mars.png')
-SPLASHIMG = loadAsset('splashScreen.png').convert()
-FONT = pygame.font.Font(
-    'src' + os.sep + 'assets' + os.sep + 'gameFont.ttf', 35)
-COP_IMAGE = [loadAsset('cop' +os.sep+ 'Walk' +os.sep+ 'walk1.png'),  
-            loadAsset('cop' +os.sep+ 'Walk' +os.sep+ 'walk2.png'), 
-            loadAsset('cop' +os.sep+ 'Walk' +os.sep+ 'walk3.png')]
+
+try:
+    MARSIMG = loadImage('mars.png')
+except:
+    MARSIMG = linkToFile(
+        'https://github.com/ViperPyWeek/gameAssets/blob/main/mars.png')
+
+try:
+    SPLASHIMG = loadImage('splashScreen.png').convert()
+except:
+    SPLASHIMG = linkToFile(
+        'https://github.com/ViperPyWeek/gameAssets/blob/main/splashScreen.png').convert()
+
+
+try:
+    FONT = pygame.font.Font('src' + os.sep + 'assets' +
+                            os.sep + 'gameFont.ttf', 35)
+except:
+    FONT = loadFont(
+        'https://github.com/ViperPyWeek/gameAssets/blob/main/gameFont.ttf')
+
+try:
+    COP_IMAGE = [
+                 loadImage('cop' + os.sep + 'Walk' + os.sep + 'walk1.png'),
+                 loadImage('cop' + os.sep + 'Walk' + os.sep + 'walk2.png'),
+                 loadImage('cop' + os.sep + 'Walk' + os.sep + 'walk3.png')
+                 ]
+except:
+    COP_IMAGE = [
+                 linkToFile('https://github.com/ViperPyWeek/gameAssets/blob/main/cop/Walk/walk1.png'),
+                 linkToFile('https://github.com/ViperPyWeek/gameAssets/blob/main/cop/Walk/walk2.png'),
+                 linkToFile('https://github.com/ViperPyWeek/gameAssets/blob/main/cop/Walk/walk1.png')
+                 ]
+
 
 # Vars
 accelRate = 1
@@ -37,7 +81,7 @@ pauseDisp = False
 splashed = False
 mars = MARSIMG
 
-#create a cop using the player class
+# create a cop using the player class
 cop = hero.player(COP_IMAGE[0], COP_X, COP_Y, COP_WIDTH, COP_HEIGHT)
 
 # Classes (before vars as some vars may depend on classes)
@@ -48,13 +92,12 @@ acceleration = Acceleration(0, 10, accelRate, pygame)
 
 # planet functions
 
-from customLib.planet import *
 
 # button and prompting functions
 
 
 def mainMenu():
-    """Generates the main menu and buttons"""
+    '''Generates the main menu and buttons'''
     exitButton = FONT.render('Exit', True, WHITE)
     window.blit(exitButton, (EXITBUTTONXSTART, EXITBUTTONYSTART))
     startButton = FONT.render('Start', True, WHITE)
@@ -62,7 +105,7 @@ def mainMenu():
 
 
 def pauseScreen():
-    """Generates the pause screen and buttons"""
+    '''Generates the pause screen and buttons'''
     resumeButton = FONT.render('Resume', True, WHITE)
     window.blit(resumeButton, (RESUMEBUTTONXSTART, RESUMEBUTTONYSTART))
     menuButton = FONT.render('Main Menu', True, WHITE)
@@ -70,7 +113,7 @@ def pauseScreen():
 
 
 def inputMgmt():
-    """Manages all input and events"""
+    '''Manages all input and events'''
     global pauseDisp, menuDisp, splashed
     for event in pygame.event.get():
         keys = pygame.key.get_pressed()
@@ -107,7 +150,7 @@ def inputMgmt():
 
 
 def splashScrDisp():
-    """Generates splash screen at launch"""
+    '''Generates splash screen at launch'''
     pressSpace = FONT.render('Press Space', True, WHITE)
     window.blit(SPLASHIMG, ORIGIN)
     window.blit(pressSpace, (105, 300))
