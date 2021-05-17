@@ -1,7 +1,7 @@
 import pygame
 
 # main player class
-class player(object):
+class Player(object):
     def __init__(self,image, x, y, width, height):
         self.x = x
         self.y = y

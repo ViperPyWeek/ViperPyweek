@@ -1,5 +1,4 @@
 # Default libraries
-from customLib.planet import *
 import pygame
 from sys import exit
 from requests import get
@@ -12,12 +11,15 @@ from classes import player as hero
 
 # Custom libraries
 from customLib.constants import *
+from customLib.planet import *
+import customLib.shapesHelpers as shape
 
 # library initializations
-pygame.init()
 
+pygame.init()
 window = pygame.display.set_mode(
     (WIN_WIDTH, WIN_HEIGHT))  # creating pygame window
+shape.init(window)
 pygame.display.set_caption('Space Force Cops')
 
 
@@ -61,39 +63,42 @@ except:
 
 try:
     COP_IMAGE = [
-                 loadImage('cop' + os.sep + 'Walk' + os.sep + 'walk1.png'),
-                 loadImage('cop' + os.sep + 'Walk' + os.sep + 'walk2.png'),
-                 loadImage('cop' + os.sep + 'Walk' + os.sep + 'walk3.png')
-                 ]
+        loadImage('cop' + os.sep + 'Walk' + os.sep + 'walk1.png'),
+        loadImage('cop' + os.sep + 'Walk' + os.sep + 'walk2.png'),
+        loadImage('cop' + os.sep + 'Walk' + os.sep + 'walk3.png')
+    ]
 except:
     COP_IMAGE = [
-                 linkToFile('https://github.com/ViperPyWeek/gameAssets/blob/main/cop/Walk/walk1.png'),
-                 linkToFile('https://github.com/ViperPyWeek/gameAssets/blob/main/cop/Walk/walk2.png'),
-                 linkToFile('https://github.com/ViperPyWeek/gameAssets/blob/main/cop/Walk/walk1.png')
-                 ]
-
+        linkToFile(
+            'https://github.com/ViperPyWeek/gameAssets/blob/main/cop/Walk/walk1.png'),
+        linkToFile(
+            'https://github.com/ViperPyWeek/gameAssets/blob/main/cop/Walk/walk2.png'),
+        linkToFile(
+            'https://github.com/ViperPyWeek/gameAssets/blob/main/cop/Walk/walk1.png')
+    ]
+try:
+    BULLET = loadImage('bullet.png')
+except:
+    BULLET = linkToFile(
+        'https://github.com/ViperPyWeek/gameAssets/blob/main/bullet.png')
 
 # Vars
 accelRate = 1
 iterCt = 0
+fps = 100
 menuDisp = True
 pauseDisp = False
 splashed = False
 mars = MARSIMG
+bulletX, bulletY = COP_X+40, COP_Y+40
+shoot = False
 
-# create a cop using the player class
-cop = hero.player(COP_IMAGE[0], COP_X, COP_Y, COP_WIDTH, COP_HEIGHT)
+# classes
+cop = hero.Player(COP_IMAGE[0], COP_X, COP_Y, COP_WIDTH, COP_HEIGHT)
+bulletVel = Acceleration(5, 20, 2)
+marsAccel = Acceleration(0, 10, accelRate)
 
-# Classes (before vars as some vars may depend on classes)
-
-acceleration = Acceleration(0, 10, accelRate, pygame)
-
-# methods for visualizing
-
-# planet functions
-
-
-# button and prompting functions
+# button functions
 
 
 def mainMenu():
@@ -113,12 +118,15 @@ def pauseScreen():
 
 
 def inputMgmt():
+    global shoot
     '''Manages all input and events'''
     global pauseDisp, menuDisp, splashed
     for event in pygame.event.get():
         keys = pygame.key.get_pressed()
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouseX, mouseY = pygame.mouse.get_pos()
+            if not menuDisp and not pauseDisp and splashed:
+                shoot = True
             if menuDisp and splashed:
                 # EXIT BUTTON
                 if EXITBUTTONXSTART <= mouseX <= EXITBUTTONXEND and EXITBUTTONYSTART <= mouseY <= EXITBUTTONYEND:
@@ -160,7 +168,7 @@ def printAcceleration():
     global iterCt
     if iterCt < 1:
         try:
-            print(acceleration)
+            print(marsAccel)
             iterCt += 1
         except TypeError:
             pass
@@ -169,7 +177,7 @@ def printAcceleration():
 
 
 while True:
-    pygame.time.wait(100)
+    pygame.time.wait(fps)
     inputMgmt()
     if not splashed:
         splashScrDisp()
@@ -178,9 +186,18 @@ while True:
             window.fill(BLACK)
         if not menuDisp and not pauseDisp:
             drawPlanet(mars, window)
-            mars = rotatePlanet(mars, acceleration, pygame)
+            mars = rotatePlanet(mars, marsAccel, pygame)
             cop.draw(COP_IMAGE, window)
         if menuDisp:
             mainMenu()
+    if shoot:
+        window.blit(BULLET, (bulletX, bulletY))
+        bulletAccel = bulletVel.accelerate()
+        bulletX += bulletAccel
+        if bulletX >= 400:
+            bulletX, bulletY = COP_X+40, COP_Y+40
+            shoot = False
+            bulletAccel = 0
+            bulletVel = Acceleration(5, 20, 2)
     printAcceleration()
     pygame.display.update()  # updates the display
